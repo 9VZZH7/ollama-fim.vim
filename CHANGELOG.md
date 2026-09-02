@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-09-01
+
+### Changed
+
+- Default `g:fim_ollama_model` / `g:fim_ollama_model_type` switched from
+  the retired `rnj-1:8b-cloud` / `rnj-1` to `qwen2.5-coder` / `qwen`.
+  `rnj-1:8b` was retired from Ollama Cloud on 2026-06-30, leaving
+  zero-config installs with a dead default. Explicit settings are
+  unaffected.
+
+### Fixed
+
+- README's vim-plug snippet used `{ 'rtp': 'vim' }`, but the runtime
+  files live at the repository root; the option made vim-plug source a
+  nonexistent path, so the plugin never loaded. Use a plain
+  `Plug 'guzmandrade-dev/ollama-fim.vim'`.
+- README's Together AI example used the `/chat/completions` path, but
+  the `openai` backend sends a text-completions payload; corrected to
+  `/completions` (verified against the live API).
+- Vim help doc: fixed the OpenAI-compatible endpoint example and stale
+  ghost-text/`textprop` UI references (the UI has been popup-only
+  since 1.0.4).
+- Documented local `rnj-1:8b` usage after the Ollama Cloud retirement.
+
 ## [1.1.0] - 2026-07-29
 
 ### Added
