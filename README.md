@@ -46,7 +46,7 @@ git clone https://github.com/guzmandrade-dev/ollama-fim.vim.git
 ### Using vim-plug
 
 ```vim
-Plug 'guzmandrade-dev/ollama-fim.vim', { 'rtp': 'vim' }
+Plug 'guzmandrade-dev/ollama-fim.vim'
 ```
 
 ## Configuration
@@ -54,12 +54,14 @@ Plug 'guzmandrade-dev/ollama-fim.vim', { 'rtp': 'vim' }
 Add to your `.vimrc` / `init.vim`:
 
 ```vim
-" Required: model running in Ollama or an OpenAI-compatible API
-let g:fim_ollama_model = 'rnj-1:8b'
+" Required: model running in Ollama or an OpenAI-compatible API.
+" Defaults to 'qwen2.5-coder' (ollama pull qwen2.5-coder).
+let g:fim_ollama_model = 'qwen2.5-coder'
 
 " FIM format family. Must match the model architecture.
 " Options: 'rnj-1', 'deepseek', 'qwen', 'gemma', 'mistral', 'ministral'
-let g:fim_ollama_model_type = 'rnj-1'
+" Defaults to 'qwen'.
+let g:fim_ollama_model_type = 'qwen'
 
 " Backend: 'ollama' (default) or 'openai' for OpenAI-compatible providers.
 let g:fim_ollama_backend = 'ollama'
@@ -136,7 +138,7 @@ local Ollama, and other OpenAI-compatible hosts.
 ```vim
 let g:fim_ollama_backend = 'openai'
 let g:fim_ollama_api_url = 'https://api.together.xyz/v1'
-let g:fim_ollama_api_path = '/chat/completions'
+let g:fim_ollama_api_path = '/completions'
 let g:fim_ollama_model = 'Qwen/Qwen3.5-9B'
 let g:fim_ollama_model_type = 'qwen'
 let g:fim_ollama_api_key = '<YOUR_API_KEY>'
@@ -162,6 +164,12 @@ tokens are still selected by `g:fim_ollama_model_type`.
 | `gemma` | `<\|fim_prefix\|>...<\|fim_middle\|>...<\|fim_suffix\|>` | `gemma3:latest` |
 | `mistral` | `<s>[SUFFIX]{suffix}[PREFIX]{prefix}` (raw mode) | `codestral:latest` |
 | `ministral` | chat-template-wrapped SPM FIM with terse code-completion instruction (raw mode unsupported on Ollama Cloud) | `ministral-3:3b` |
+
+**Using `rnj-1`:** `rnj-1:8b` was retired from Ollama Cloud on 2026-06-30
+(the `rnj-1:8b-cloud` tag returns HTTP 410) and is no longer served by
+Together AI. The open-weight model is still available locally: run
+`ollama pull rnj-1:8b` (requires Ollama 0.13.3+), then set
+`g:fim_ollama_model = 'rnj-1:8b'` with `g:fim_ollama_model_type = 'rnj-1'`.
 
 **Using `mistral` / `ministral`:** `mistral` uses Ollama `raw` mode to send
 `<s>[SUFFIX]{suffix}[PREFIX]{prefix}` directly to the model. `ministral`

@@ -19,10 +19,10 @@ if !exists('g:fim_ollama_backend')
     let g:fim_ollama_backend = 'ollama'
 endif
 if !exists('g:fim_ollama_model')
-    let g:fim_ollama_model = 'rnj-1:8b-cloud'
+    let g:fim_ollama_model = 'qwen2.5-coder'
 endif
 if !exists('g:fim_ollama_model_type')
-    let g:fim_ollama_model_type = 'rnj-1'
+    let g:fim_ollama_model_type = 'qwen'
 endif
 if !exists('g:fim_ollama_max_tokens')
     let g:fim_ollama_max_tokens = 64

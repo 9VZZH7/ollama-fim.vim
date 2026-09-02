@@ -17,12 +17,14 @@ CONTENTS                                                   *fim_ollama_contents*
 1. INTRODUCTION                                             *fim_ollama_intro*
 
 fim_ollama.vim provides inline code completions for Vim using Ollama or any
-OpenAI-compatible text completions API. It renders ghost text as you type and
-uses the same FIM prompt engineering as the FIM Completions VS Code extension.
+OpenAI-compatible text completions API. It shows suggestions in a popup as
+you type and uses the same FIM prompt engineering as the FIM Completions
+VS Code extension.
 
 Features:
   * Async completions using curl (no Python/Node required).
-  * Vim 9 ghost text via |textprop|, with a popup fallback for older Vim.
+  * Popup-based suggestion UI via |popup_atcursor|; suggestions never
+    modify the buffer.
   * File-level context: imports, definitions, recent code, scope hints.
   * Support for rnj-1, deepseek, qwen, gemma, mistral, and ministral FIM formats.
 
@@ -60,11 +62,11 @@ Set these variables in your |.vimrc|.
 
 *g:fim_ollama_model*
     Model name passed to the API.
-    Default: "rnj-1:8b-cloud"
+    Default: "qwen2.5-coder"
 
 *g:fim_ollama_model_type*
     FIM token family. One of: rnj-1, deepseek, qwen, gemma, mistral, ministral.
-    Default: "rnj-1"
+    Default: "qwen"
 
 *g:fim_ollama_max_tokens*
     Maximum tokens to generate.
@@ -133,7 +135,7 @@ Set these variables in your |.vimrc|.
 5. MAPPINGS                                                *fim_ollama_mappings*
 
 Default insert-mode mappings:
-    <Tab>      Accept ghost suggestion.
+    <Tab>      Accept the current suggestion.
     <M-]>      Cycle to the next suggestion (or request a new one from the model).
 
 To customize, map before the plugin loads:
@@ -163,8 +165,9 @@ plugin embeds the SPM markers inside a short code-completion instruction.
 Use |g:fim_ollama_system_prompt| to customize that instruction.
 
 When using the "openai" backend, set |g:fim_ollama_api_path| to the text
-completions endpoint for your provider (e.g. "/v1/completions" on
-Together AI or local Ollama). The prefix and suffix are sent as separate
+completions endpoint for your provider (e.g. "/completions" when
+|g:fim_ollama_api_url| ends in "/v1", as on Together AI or local
+Ollama). The prefix and suffix are sent as separate
 `prompt` and `suffix` fields so the model's native FIM template is used
 when available. The generated code is read from `choices[0].text`, with
 a fallback to `choices[0].message.content` for chat-style responses. The
@@ -174,7 +177,7 @@ chat-template-wrapped models such as `ministral`.
 
 *g:fim_ollama_system_prompt*
     System/instruction prompt used for chat-template-wrapped models such
-    as `ministral`, and for the "openai" chat-completions backend.
+    as `ministral`.
     Default: see autoload/fim_ollama/prompt.vim
 
  vim:tw=78:ts=8:ft=help:norl:
