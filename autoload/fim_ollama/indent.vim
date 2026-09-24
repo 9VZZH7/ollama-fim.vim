@@ -55,7 +55,8 @@ endfunction
 " Internal and trailing whitespace is never changed.
 function! fim_ollama#indent#normalize_text(text, ...) abort
     if !fim_ollama#indent#enabled()
-        return a:text
+        " return a:text
+        return substitute(a:text, '\(^\|\n\)\zs\s\+', '', 'g')
     endif
 
     let l:settings = a:0 >= 1 ? a:1 : fim_ollama#indent#get_buffer_settings()

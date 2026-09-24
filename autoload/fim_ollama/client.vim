@@ -27,6 +27,7 @@ function! fim_ollama#client#build_payload(model, prompt, stop_tokens, max_tokens
             \ 'max_tokens': a:max_tokens,
             \ 'temperature': a:temperature,
             \ 'stop': a:stop_tokens,
+            \ 'messages': [{"role": "user", "content": a:prompt}]
             \ }
         if !empty(l:suffix)
             let l:payload.suffix = l:suffix

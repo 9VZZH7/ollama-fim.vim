@@ -3,7 +3,7 @@
 " Ensure indent normalization functions are available.
 let s:indent_module_loaded = exists('*fim_ollama#indent#normalize_text')
 
-let s:enabled = 1
+let s:enabled = 0
 let s:debounce_timer = -1
 let s:request_counter = 0
 let s:accept_lock = 0
@@ -158,6 +158,7 @@ function! s:do_request(timer_id) abort
 
     let l:model_type = l:cfg.model_type
     let l:prompt = fim_ollama#prompt#build_fim_prompt(l:enriched_prefix, l:suffix, l:model_type)
+    " call writefile([l:prompt], expand('~/.innerlog'))
 
     let l:backend = l:cfg.backend
     let l:raw = fim_ollama#prompt#requires_raw(l:model_type)
@@ -172,7 +173,7 @@ function! s:do_request(timer_id) abort
     endif
 
     if l:backend ==# 'openai'
-        let l:payload_prompt = l:enriched_prefix
+        let l:payload_prompt = l:prompt " l:enriched_prefix
         let l:payload_suffix = l:suffix
     else
         let l:payload_prompt = l:prompt

@@ -12,6 +12,7 @@ let s:fim_tokens = {
     \ 'rnj-1':    { 'pre': '<|pre_fim|>',  'suf': '<|suf_fim|>',  'mid': '<|mid_fim|>'  },
     \ 'deepseek': { 'pre': '<|fim_begin|>', 'suf': '<|fim_hole|>', 'mid': '<|fim_end|>'  },
     \ 'qwen':     { 'pre': '<|fim_prefix|>', 'suf': '<|fim_suffix|>', 'mid': '<|fim_middle|>' },
+    \ 'granite':     { 'pre': '<|fim_prefix|>', 'suf': '<|fim_suffix|>', 'mid': '<|fim_middle|>' },
     \ 'gemma':    { 'pre': '<|fim_prefix|>', 'suf': '<|fim_suffix|>', 'mid': '<|fim_middle|>' },
     \ 'mistral':  { 'pre': '[PREFIX]',     'suf': '[SUFFIX]',     'mid': '',            'bos': '<s>', 'raw': 1 },
     \ 'ministral': { 'pre': '[PREFIX]',    'suf': '[SUFFIX]',     'mid': '',            'bos': '<s>', 'raw': 0 },
@@ -63,6 +64,8 @@ function! fim_ollama#prompt#build_fim_prompt(prefix, suffix, model_type) abort
 
     let l:tokens = s:fim_tokens[l:model_type]
     let l:has_suffix = type(a:suffix) == v:t_string && a:suffix !=# ''
+
+    " call writefile(split(l:tokens.pre, "\n", 1), expand('~/.innerlog'))
 
     if l:model_type ==# 'gemma'
         " Gemma: <|fim_prefix|>prefix<|fim_middle|>suffix<|fim_suffix|>

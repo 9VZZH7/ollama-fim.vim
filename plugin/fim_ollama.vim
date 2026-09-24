@@ -7,7 +7,7 @@ let g:loaded_fim_ollama = 1
 
 " Default global settings (users can override in .vimrc).
 if !exists('g:fim_ollama_enabled')
-    let g:fim_ollama_enabled = 1
+    let g:fim_ollama_enabled = 0
 endif
 if !exists('g:fim_ollama_api_url')
     let g:fim_ollama_api_url = 'http://localhost:11434'
